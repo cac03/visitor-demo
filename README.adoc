@@ -1,0 +1,18 @@
+= Visitor Demo
+
+== Groovy
+
+The `groovy` source tree contains a code written in https://groovy-lang.org/[Groovy language].
+The language employs *multiple dispatch* -- the mechanism when not only the receiver of the method call is considered to choose a target method, but something else, in case of groovy argument types are inspected too.
+The method selection algorithm precisely described in https://groovy-lang.org/objectorientation.html#_method_selection_algorithm[the documentation].
+
+Simply speaking, we do not need visitors there, the behavior is provided as is. footnote[This is true for _dynamic_ Groovy, the behavior will be the same if class compiled statically, e.g. using `@CompileStatic`].
+
+So the demo simply prints:
+
+[source,text]
+----
+👶
+🦄
+🌺
+----
