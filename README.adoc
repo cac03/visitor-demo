@@ -1,18 +1,47 @@
 = Visitor Demo
 
-== Groovy
+This repository contains simple demo of visitor pattern -- a way to organize code that:
 
-The `groovy` source tree contains a code written in https://groovy-lang.org/[Groovy language].
-The language employs *multiple dispatch* -- the mechanism when not only the receiver of the method call is considered to choose a target method, but something else, in case of groovy argument types are inspected too.
-The method selection algorithm precisely described in https://groovy-lang.org/objectorientation.html#_method_selection_algorithm[the documentation].
+. Has fixed (or rarely changing) hierarchy of types
+. Expects a lot of new *algorithms* working against these types to be introduced
 
-Simply speaking, we do not need visitors there, the behavior is provided as is. footnote:[This is true for _dynamic_ Groovy, the behavior will be the same if class compiled statically, e.g. using `@CompileStatic`].
+The repository showcases the problem from a little different point of view: necessity of this organization in Java compared to Groovy.
+The problem raised there is to *process all subclasses of the hierarchy differently* in a given algorithm -- print in this case.
+
+== Structure
+
+=== General
+
+All demonstrations contain at least two files:
+
+. `Any` -- it has an `interface` `Any` and three implementations: `Ghost`, `Flower` and `Unicorn`
+. `Printer` which contains an _algorithm_ to process them, in this case it simply prints the type and an Emoji
+
+The intent there is to the following output:
+
+[source,text]
+----
+👻 - Ghost
+🌺 - Flower
+🦄 - Unicorn
+----
+
+* Naive implementation in the `src/main/java/com/caco3/visitor/java/unvisited` directory (the `com.caco3.visitor.java.unvisited` package) attempts to do it using method overloads and _fails_.
+* Code written in `src/main/groovy/com/caco3/visitor/groovy` does the same as Java, but does not fail, due to the dynamic nature of the language it is written in -- Groovy.
+* The `com.caco3.java.visitor` package finally achieves the original goal in Java leveraging the visitor pattern.
+
+== Why Groovy does not fail?
+
+The language employs *multiple dispatch* -- the mechanism when not only the *type* of the receiver of the method call inspected to choose a _target method_, but something else, in case of groovy argument types are inspected too.
+The method selection algorithm is precisely described in https://groovy-lang.org/objectorientation.html#_method_selection_algorithm[the documentation].
+
+Simply speaking, we do not need visitors there, the behavior provided as is. footnote:[This is true for _dynamic_ Groovy, the behavior will be the same as in Java if the class were compiled statically, e.g., using `@CompileStatic`].
 
 So the demo simply prints:
 
 [source,text]
 ----
-👶
-🦄
-🌺
+👻 - Ghost
+🌺 - Flower
+🦄 - Unicorn
 ----
